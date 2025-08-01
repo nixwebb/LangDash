@@ -23,10 +23,17 @@ df_m = pd.DataFrame(
 
 st.map(df_m, latitude="col1", longitude="col2", size="col3", color="col4")
 
-# Country selection dropdown
-selected_building = st.selectbox("Select a Building", df["Building"].dropna().unique())
-# Filter data for the selected country
-building_data = df[df["Building"] == selected_building]
+# Building selection dropdown
+selArray = df["Building"].dropna().unique()
+selArray = np.insert(selArray, 0, "All Buildings")
+selected_building = st.selectbox("Select a Building", selArray)
+
+if selected_building != "All Buildings":
+    # Filter data for the selected country
+    building_data = df[df["Building"] == selected_building]
+
+else:
+    building_data = df
 
 # Line chart for happiness trend
 st.subheader(f"Languages in {selected_building}")
